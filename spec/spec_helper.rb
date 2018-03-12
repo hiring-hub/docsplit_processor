@@ -1,4 +1,5 @@
 require "bundler/setup"
+require 'active_support/core_ext/module'
 require "docsplit_processor"
 
 RSpec.configure do |config|
