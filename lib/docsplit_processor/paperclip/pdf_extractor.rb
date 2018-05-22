@@ -5,13 +5,16 @@ module Paperclip
   class PdfExtractor < Processor
     def make
       if original_cv_is_pdf?
-        File.open(input_file_path)
+        file = File.open(input_file_path)
+        file
       else
         Docsplit.extract_pdf(input_file_path, output: destination_dir)
-        File.open(output_file_path)
+        file = File.open(output_file_path)
+        file
       end
     rescue StandardError
       raise Paperclip::Error, "Error converting '#{input_file_path}' to pdf"
+      file.close
     end
 
     private
