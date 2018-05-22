@@ -13,8 +13,8 @@ module Paperclip
         file
       end
     rescue StandardError
-      raise Paperclip::Error, "Error converting '#{input_file_path}' to pdf"
       file.close
+      raise Paperclip::Error, "Error converting '#{input_file_path}' to pdf"
     end
 
     private
