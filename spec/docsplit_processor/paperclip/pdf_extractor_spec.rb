@@ -5,7 +5,7 @@ module Paperclip
     describe '#make' do
       subject { PdfExtractor.new(file, output: dir).make }
 
-      let(:file) { double('File', path: file_path) }
+      let(:file) { double('File', path: file_path, close!: nil) }
       let(:file_path) { "#{dir}/test.docx" }
       let(:pdf_path) { "#{dir}/test.pdf" }
       let(:dir) { './temp_dir' }
@@ -49,7 +49,8 @@ module Paperclip
             .with(file_path, output: dir).and_raise(StandardError)
         end
 
-        it 'raises a paperclip error' do
+        it 'closes the file and raises a paperclip error' do
+          expect(file).to receive(:close!)
           expect { subject }.to raise_error(Paperclip::Error)
         end
       end
