@@ -10,9 +10,10 @@ module Paperclip
         Docsplit.extract_pdf(input_file_path, output: destination_dir)
         File.open(output_file_path)
       end
-    rescue StandardError
+    rescue StandardError => exception
+      input_file_path = input_file_path
       file.close!
-      raise Paperclip::Error, "Error converting '#{input_file_path}' to pdf"
+      raise Paperclip::Error, "Error converting '#{input_file_path}' to pdf\nError caught: #{exception.backtrace.join('\n')}"
     end
 
     private
